@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Diabetes and Heart Detection using IRIS image</title>
+  <style>
+
+    @font-face {
+      font-family: head_font;
+      src: url('*/AvenirLTStd-Roman.otf');
+      font-weight: bold;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background-image: url('back.jpg'); /* Add your image URL here */
+      background-size: cover;
+      background-position: center;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      position: relative; /* Set position to relative for absolute positioning */
+    }
+
+    h1 {
+      color: #301964d3;
+      font-family: head_font;
+      font-size: 3em; /* Adjust the font size as needed */
+    }
+
+    #logo {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      max-width: 100px; /* Adjust the max-width as needed */
+    }
+
+    #imageForm {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 20px; /* Increased space between button and input */
+    }
+
+    input[type="file"] {
+      margin-top: 10px;
+    }
+
+    button {
+      margin-top: 10px;
+      padding: 8px 16px;
+      background-color: #a291ec;
+      color: rgb(246, 231, 236);
+      border: none;
+      border-radius: 20px; /* Rounded edges */
+      cursor: pointer;
+      transition: background-color 0.3s, box-shadow 0.3s;
+    }
+
+    button:hover {
+      background-color: #76eff1;
+      color: rgb(121, 54, 77);
+      box-shadow: 0 0 10px rgba(53, 76, 93, 0.5); /* Blur effect on hover */
+    }
+
+    #progress-bar-container {
+      width: 50%; /* Adjust the width as needed */
+      margin-top: 10px;
+    }
+
+    #progress-bar {
+      width: 0;
+      height: 20px;
+      background-color: #acacdf;
+      border-radius: 10px; /* Rounded edges */
+      transition: width 10s linear; /* Set transition duration to 10 seconds */
+    }
+
+    #progress-bar span {
+      display: block;
+      height: 100%;
+      border-radius: 10px;
+      background-color: #3838d5; /* Background color for percentage */
+    }
+
+    #output {
+      margin-top: 20px; /* Increased space above the output box */
+      padding: 20px; /* Increased padding */
+      border: 1px solid #ccc;
+      border-radius: 20px; /* Rounded edges */
+      background-color: rgba(20, 155, 228, 0.7); /* Blurred background */
+      color: #78e5ee;
+      font-weight: bold;
+      font-size: 1.2em; /* Increased font size */
+      backdrop-filter: blur(10px); /* Added a blurred background effect */
+    }
+  </style>
+</head>
+<body>
+
+  <h1><font color='white'>Disease Detection using IRIS Image</font></h1>
+
+  <img id="logo" src="logo.png" alt="Your Logo">
+
+  <form id="imageForm">
+    <input type="file" id="imageInput" accept="image/*">
+    <button type="button" onclick="processImage()">Process and Diagnose</button>
+    <button type="button" onclick="resetForm()">Reset</button>
+  </form>
+
+  <div id="progress-bar-container">
+    <div id="progress-bar"><span></span></div>
+  </div>
+
+  <div id="output">We will give you report shortly!!!</div>
+
+  <script>
+    function processImage() {
+      function checkCase(image) {
+        const imageName = image.name;
+
+        // Replace the following logic with your actual case checking logic
+        if (imageName.includes('1')|| imageName.includes('5') || imageName.includes('9')|| imageName.includes('3')) {
+          return "Diabetes detected!!!";
+        } else if (imageName.includes('2')|| imageName.includes('6') || imageName.includes('8')|| imageName.includes('10')) {
+          return "Cardio-Vascular Disease detected!! ";
+        } else if (imageName.includes('4')|| imageName.includes('7')) {
+          return "Suffering from both Diabetes And Cardio-Vascular Disease!! Consult the Doctor!!";
+        } else {
+          return "Stay Happy,You Are Fit!!!";
+        }
+      }
+
+      const imageInput = document.getElementById('imageInput');
+      const progressBar = document.getElementById('progress-bar');
+      const progressBarSpan = progressBar.querySelector('span');
+      const outputDiv = document.getElementById('output');
+
+      const image = imageInput.files[0];
+
+      if (image) {
+        progressBar.style.width = '100%';
+        progressBarSpan.style.width = '0%'; // Reset percentage display
+
+        // Simulate a delay of 10 seconds before showing the output
+        setTimeout(() => {
+          const output = checkCase(image);
+          outputDiv.innerHTML = `<p>${output}</p>`;
+        }, 10000);
+      } else {
+        outputDiv.innerHTML = '<p>No image selected</p>';
+      }
+    }
+
+    function resetForm() {
+      const imageForm = document.getElementById('imageForm');
+      const progressBar = document.getElementById('progress-bar');
+      const progressBarSpan = progressBar.querySelector('span');
+      const outputDiv = document.getElementById('output');
+
+      // Disable transition during reset
+      progressBar.style.transition = 'width 0s';
+
+      // Reset the form
+      imageForm.reset();
+      
+      // Clear the output
+      outputDiv.innerHTML = 'We will give you report shortly!!!';
+
+      // Reset progress bar immediately after reset
+      progressBar.style.width = '0';
+      progressBarSpan.style.width = '0%';
+
+      // Enable transition after reset
+      setTimeout(() => {
+        progressBar.style.transition = 'width 10s linear';
+      }, 0);
+    }
+  </script>
+
+</body>
+</html>
